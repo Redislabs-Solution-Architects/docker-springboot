@@ -56,7 +56,7 @@ Run a service that checks Redis if object not found gets object from backing ser
 curl http://localhost:8080/getcustomer?id=2
 ```
 
-##Spring Redis Features
+## Spring Redis Features
 
 ### Redis Pack Connection
 * Popular libraries supported (Jedis, Lettuce)
