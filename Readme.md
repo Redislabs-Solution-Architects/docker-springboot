@@ -2,7 +2,7 @@
 
 #Spring Boot Sample Application
 
-A sample Spring Boot application integration with spring boot
+A sample Spring Boot + Spring Redis application with Redis pack
 
 The example covers the following points
 
