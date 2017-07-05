@@ -1,10 +1,12 @@
 package com.redislabs.springboot.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,6 +20,8 @@ import java.util.Set;
 @Configuration
 @ComponentScan("com.redislabs.springboot.service")
 public class AppConfig {
+
+
 
     private @Value("${redis.sentinel.master}") String sentinelMaster;
     private @Value("${redis.sentinel.nodes}") String sentinelNodes;
@@ -54,9 +58,9 @@ public class AppConfig {
     }
 
     @Bean
-    RedisTemplate< String, Object > redisStringTemplate() {
+    RedisTemplate< String, Object > redisStringTemplate(JedisConnectionFactory factory) {
         final RedisTemplate< String, Object > template =  new RedisTemplate< String, Object >();
-        template.setConnectionFactory( jedisConnectionFactory() );
+        template.setConnectionFactory( factory );
         template.setKeySerializer( new StringRedisSerializer() );
         template.setHashValueSerializer( new GenericToStringSerializer< Object >( Object.class ) );
         template.setValueSerializer( new GenericToStringSerializer< Object >( Object.class ) );
@@ -64,10 +68,10 @@ public class AppConfig {
     }
 
     @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
+    public RedisTemplate<?, ?> redisTemplate(JedisConnectionFactory factory) {
 
         RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
-        template.setConnectionFactory( jedisConnectionFactory() );
+        template.setConnectionFactory( factory );
         return template;
     }
 }

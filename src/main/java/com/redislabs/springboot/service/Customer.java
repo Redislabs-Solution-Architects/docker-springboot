@@ -2,7 +2,10 @@ package com.redislabs.springboot.service;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.index.Indexed;
+
+import java.util.concurrent.TimeUnit;
 
 @RedisHash("Customers")
 public class Customer {
@@ -12,6 +15,11 @@ public class Customer {
     private String firstName;
     private String lastName;
     private int age;
+
+
+
+    @TimeToLive(unit = TimeUnit.SECONDS)
+    private Long timeToLive;
 
     public Customer() {
 
@@ -56,5 +64,13 @@ public class Customer {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getTimeToLive() {
+        return timeToLive;
+    }
+
+    public void setTimeToLive(Long timeToLive) {
+        this.timeToLive = timeToLive;
     }
 }
