@@ -1,6 +1,6 @@
 
 
-#Spring Boot Sample Application
+# Spring Boot Sample Application
 
 A sample Spring Boot + Spring Redis application with Redis pack
 
