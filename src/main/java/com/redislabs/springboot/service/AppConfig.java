@@ -2,11 +2,14 @@ package com.redislabs.springboot.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -68,10 +71,19 @@ public class AppConfig {
     }
 
     @Bean
+    @Primary
     public RedisTemplate<?, ?> redisTemplate(JedisConnectionFactory factory) {
 
         RedisTemplate<byte[], byte[]> template = new RedisTemplate<byte[], byte[]>();
         template.setConnectionFactory( factory );
         return template;
+    }
+
+
+    @Bean
+    public CacheManager cacheManager(RedisTemplate< ?, ? > template) {
+        RedisCacheManager cacheManager = new RedisCacheManager(template);
+        cacheManager.setDefaultExpiration(60);
+        return cacheManager;
     }
 }

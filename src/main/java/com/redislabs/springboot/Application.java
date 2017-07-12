@@ -1,17 +1,17 @@
 package com.redislabs.springboot;
 
-import com.redislabs.springboot.service.Customer;
-import com.redislabs.springboot.service.CustomerRedisRepo;
-import com.redislabs.springboot.service.RedisService;
-import com.redislabs.springboot.service.StubDBService;
+import com.redislabs.springboot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@EnableCaching
 public class Application {
 
     @Autowired
@@ -58,6 +58,16 @@ public class Application {
         }
         return cus;
     }
+
+    @RequestMapping("/getaccount")
+    @Cacheable("accounts")
+    public Account getAccount(String id) {
+        System.out.println("Calling backing account service");
+        return backingService.getAccount(id);
+    }
+
+
+
 
 
     public static void main(String[] args) {
