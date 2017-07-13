@@ -12,8 +12,15 @@ The example covers the following points
     * Exposed as a REST service
     * Object attribute index
     * Object TTL example
+* An example of [Spring Cache Manager with Redis](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/cache.html)
 
 ## How to Run
+
+### Requirements
+
+* You will need JDK 1.8 installed. 
+* If you want to create a docker image then docker should be installed
+
 ### Stand Alone
 
 *edit* application.yml file and change the nodes and change the *nodes* and *master* property to RP nodes IP and db name respectively.
@@ -54,6 +61,11 @@ curl  http://localhost:8080/customers/1
 Run a service that checks Redis if object not found gets object from backing service and save to Redis with TTL
 ```
 curl http://localhost:8080/getcustomer?id=2
+```
+
+A service that uses Spring Cache manager with Redis
+```
+curl http://localhost:8080/getaccount?id=1
 ```
 
 ## Spring Redis Features

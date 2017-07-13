@@ -59,6 +59,11 @@ public class Application {
         return cus;
     }
 
+    /**
+     * Example of using Spring cache manager
+     * @param id
+     * @return
+     */
     @RequestMapping("/getaccount")
     @Cacheable("accounts")
     public Account getAccount(String id) {
